@@ -39,12 +39,13 @@ function gdrive_sharing_download_image( $url ) {
     }
 }
 
-function gdrive_sharing_generate_thumbnail( $post_id, $url ) {
+function gdrive_sharing_generate_thumbnail( $post_id ) {
     $thumbnail_id = get_post_thumbnail_id( $post_id );
     if( !empty( $thumbnail_id ) )
         return;
 
-    $downloadable_url = gdrive_sharing_covert_url( $url );
+    $raw_url = get_post_meta( $post_id, 'gdrive_sharing_file_url', TRUE );
+    $downloadable_url = gdrive_sharing_covert_url( $raw_url );
     $imgpath = gdrive_sharing_download_image( $downloadable_url );
     $title = get_the_title( $post_id );
     $wp_filetype = wp_check_filetype($imgpath, null );
