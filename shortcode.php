@@ -7,6 +7,7 @@ class GDriveSharingShortcode {
     function add_shortcodes() {
         $id = get_the_ID();
         $url = get_post_meta( $id, 'gdrive_sharing_file_url', TRUE );
+        $url = gdrive_sharing_covert_url( $url );
         if( empty( $url ) ) {
             echo NULL;
         } else {

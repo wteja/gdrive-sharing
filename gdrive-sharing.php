@@ -8,7 +8,10 @@
  * Description: Create Downloadable Google Drive Link, Generate post thumbnail from PDF cover.
  */
 
+ require('util.php');
+
  if( is_admin() ) {
+    require __DIR__ . '/vendor/autoload.php';
     require_once('metabox.php');
  } else {
     require_once('shortcode.php');
