@@ -11,7 +11,6 @@
  require('util.php');
 
  if( is_admin() ) {
-    require __DIR__ . '/vendor/autoload.php';
     require_once('metabox.php');
  } else {
     require_once('shortcode.php');

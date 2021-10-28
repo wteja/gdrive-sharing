@@ -28,6 +28,10 @@ class Gdrive_Sharing_Metaboxes {
 					if ( isset( $_POST[ $field['id'] ] ) ) {
 						$sanitized = esc_url_raw( $_POST[ $field['id'] ] );
 						update_post_meta( $post_id, $field['id'], $sanitized );
+
+						if( $field['id'] == 'gdrive_sharing_file_url') {
+							gdrive_sharing_generate_thumbnail( $post_id, $sanitized );
+						}
 					}
 					break;
 				default:
