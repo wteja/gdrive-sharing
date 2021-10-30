@@ -36,24 +36,27 @@ class Gdrive_Sharing_Metaboxes {
 	}
 
 	public function save_post( $post_id ) {
-		foreach ( $this->config['fields'] as $field ) {
-			switch ( $field['type'] ) {
-				case 'url':
-					if ( isset( $_POST[ $field['id'] ] ) ) {
-						$sanitized = esc_url_raw( $_POST[ $field['id'] ] );
-						update_post_meta( $post_id, $field['id'], $sanitized );
-					}
-					break;
-				default:
-					if ( isset( $_POST[ $field['id'] ] ) ) {
-						$sanitized = sanitize_text_field( $_POST[ $field['id'] ] );
-						update_post_meta( $post_id, $field['id'], $sanitized );
-					}
+		global $post;
+		if( in_array( $post->post_type, ['post', 'page']) ) {
+			foreach ( $this->config['fields'] as $field ) {
+				switch ( $field['type'] ) {
+					case 'url':
+						if ( isset( $_POST[ $field['id'] ] ) ) {
+							$sanitized = esc_url_raw( $_POST[ $field['id'] ] );
+							update_post_meta( $post_id, $field['id'], $sanitized );
+						}
+						break;
+					default:
+						if ( isset( $_POST[ $field['id'] ] ) ) {
+							$sanitized = sanitize_text_field( $_POST[ $field['id'] ] );
+							update_post_meta( $post_id, $field['id'], $sanitized );
+						}
+				}
 			}
+	
+			// Generate post thumbnail if not set it yet.
+			gdrive_sharing_generate_thumbnail( $post_id );
 		}
-
-		// Generate post thumbnail if not set it yet.
-		gdrive_sharing_generate_thumbnail( $post_id );
 	}
 
 	public function add_meta_box_callback() {
