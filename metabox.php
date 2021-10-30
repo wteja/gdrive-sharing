@@ -1,9 +1,23 @@
 <?php
 class Gdrive_Sharing_Metaboxes {
-	private $config = '{"title":"Google Drive File Sharing","prefix":"gdrive_sharing_","domain":"gdrive-sharing","class_name":"Gdrive_Sharing","post-type":["post","page"],"context":"normal","priority":"high","fields":[{"type":"url","label":"File URL","id":"gdrive_sharing_file_url"}]}';
-
+	private $config = [
+		'title' => 'Google Drive File Sharing',
+		'prefix' => 'gdrive_sharing_',
+		'domain' => 'gdrive-sharing',
+		'class_name' => 'Gdrive_Sharing',
+		'post-type' => ['post', 'page'],
+		'context' => 'normal',
+		'priority' => 'high',
+		'fields' => [
+			[
+				"id" => "gdrive_sharing_file_url",
+				"type" => "url",
+				"label" => "File URL"
+			]
+		]
+	];
+	
 	public function __construct() {
-		$this->config = json_decode( $this->config, true );
 		add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ] );
 		add_action( 'save_post', [ $this, 'save_post' ] );
 	}
