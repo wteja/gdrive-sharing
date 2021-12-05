@@ -5,7 +5,7 @@ class Gdrive_Sharing_Metaboxes {
 		'prefix' => 'gdrive_sharing_',
 		'domain' => 'gdrive-sharing',
 		'class_name' => 'Gdrive_Sharing',
-		'post-type' => ['post', 'page'],
+		'post-type' => ['post'],
 		'context' => 'normal',
 		'priority' => 'high',
 		'fields' => [
@@ -37,13 +37,15 @@ class Gdrive_Sharing_Metaboxes {
 
 	public function save_post( $post_id ) {
 		global $post;
-		if( in_array( $post->post_type, ['post', 'page']) ) {
+		if( in_array( $post->post_type, ['post']) ) {
 			foreach ( $this->config['fields'] as $field ) {
 				switch ( $field['type'] ) {
 					case 'url':
-						if ( isset( $_POST[ $field['id'] ] ) ) {
+						if ( !empty( $_POST[ $field['id'] ] ) ) {
 							$sanitized = esc_url_raw( $_POST[ $field['id'] ] );
 							update_post_meta( $post_id, $field['id'], $sanitized );
+						} else {
+							update_post_meta( $post_id, '' );
 						}
 						break;
 					default:
